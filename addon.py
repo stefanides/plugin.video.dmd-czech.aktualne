@@ -140,7 +140,7 @@ def playUrl(url):
 		image = re.sub('<meta property="og:image" content="', '', image).replace('">', '')
 		description = re.compile('<meta property="og:description" content=".*">').search(httpdata).group(0)
 		description = re.sub('<meta property="og:description" content="', '', description).replace('">', '')
-		videos = re.compile('tracks:(?:.(?!\}\]\}))*.\}\]\}', re.S).findall(httpdata)
+		videos = re.compile('tracks":(?:.(?!\}\]\}))*.\}\]\}', re.S).findall(httpdata)
 		if len(videos) > 1:  # last item in playlist is doubled on page
 			del videos[-1]
 		if videos:
@@ -150,7 +150,7 @@ def playUrl(url):
 				twice = True
 			for video in videos:
 				video = re.sub(re.compile('\sadverttime:.*', re.S), '', video) # live streams workaround
-				video = video.replace('tracks: ', '')
+				video = video.replace('tracks":', '')
 				video = re.sub(r'[,\w]*$','',video)
 				try:
 					detail = json.loads(video)
